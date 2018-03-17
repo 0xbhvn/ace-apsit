@@ -46,12 +46,12 @@ class LeaveController extends Controller
      */
     public function store(Request $request)
     {
-        Leave::create([
+        $leave = Leave::create([
             'user_id' => auth()->id(),
-            'date' => \request('date')
+            'date' => Carbon::parse($request->date)->toDateString()
         ]);
 
-        return redirect('/leave');
+        return redirect('/leave/'.$leave->id.'/assign');
     }
 
     /**
@@ -105,19 +105,7 @@ class LeaveController extends Controller
 
         User::where('id', $leave->user_id )->update(['remaining_leaves'=>$leave->user->remaining_leaves - 1]);
 
-        Carbon::parse($leave->date)->format('l');
-
-        $schedules = Timetable::where('user_id', $leave->user_id)->where('day', Carbon::parse($leave->date)->format('l'))->where('is_available', false)->get();
-
-        foreach($schedules as $schedule){
-            Assign::create([
-                'date' => $leave->date,
-                'day' => $schedule->day,
-                'time' => $schedule->time
-            ]);
-        }
-
-        return redirect('/assign/');
+        return redirect('/assign');
     }
 
     public function decline(Leave $leave)

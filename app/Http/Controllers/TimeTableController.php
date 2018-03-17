@@ -58,7 +58,7 @@ class TimetableController extends Controller
      */
     public function store(Request $request)
     {
-        Timetable::where('day', $request->day)->where('time', $request->time)->update(['is_available'=>false]);
+        Timetable::where('user_id', auth()->id())->where('day', $request->day)->where('time', $request->time)->update(['is_available'=>false]);
 
         return redirect('/timetable');
     }
@@ -126,7 +126,8 @@ class TimetableController extends Controller
                 Timetable::create([
                     'user_id' => auth()->id(),
                     'day' => $datePeriodRow->format('l'),
-                    'time' => $hourPeriodRow->format('h:i A')
+                    'time' => $hourPeriodRow->format('h:i A'),
+                    'is_available' => true
                 ]);
             }
         }

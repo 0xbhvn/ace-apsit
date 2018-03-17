@@ -10,7 +10,7 @@
                     <div class="card-body">
                         @foreach($assigns->where('is_approved', false) as $assign)
                             <li class="list-group-item">
-                                {{ $assign->date }} <span class="badge badge-warning">Pending</span>
+                                <a class="nav-link" href="/assign/{{ $assign->id }}">{{ $assign->date }}</a> <span class="badge badge-warning">Pending</span>
                             </li>
                         @endforeach
                     </div>
