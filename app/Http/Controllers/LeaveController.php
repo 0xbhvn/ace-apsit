@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Leave;
+use App\Timetable;
 use App\User;
+use App\Assign;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller
@@ -102,7 +105,19 @@ class LeaveController extends Controller
 
         User::where('id', $leave->user_id )->update(['remaining_leaves'=>$leave->user->remaining_leaves - 1]);
 
-        return back();
+        Carbon::parse($leave->date)->format('l');
+
+        $schedules = Timetable::where('user_id', $leave->user_id)->where('day', Carbon::parse($leave->date)->format('l'))->where('is_available', false)->get();
+
+        foreach($schedules as $schedule){
+            Assign::create([
+                'date' => $leave->date,
+                'day' => $schedule->day,
+                'time' => $schedule->time
+            ]);
+        }
+
+        return redirect('/assign/');
     }
 
     public function decline(Leave $leave)

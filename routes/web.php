@@ -32,3 +32,5 @@ Route::get('/leave/{leave}/approve', 'LeaveController@approve');
 Route::get('/leave/{leave}/decline', 'LeaveController@decline');
 
 Route::get('/leave/create', 'LeaveController@create');
+
+Route::get('/assign', 'AssignController@index');

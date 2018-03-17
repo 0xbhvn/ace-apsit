@@ -12,9 +12,16 @@ class AssignController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
+        $assigns = Assign::latest()->get();
+
+        return view('assign.index', compact('assigns'));
     }
 
     /**
@@ -35,7 +42,10 @@ class AssignController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Assign::create([
+            'user_id' => auth()->id(),
+            'date' => \request('date')
+        ]);
     }
 
     /**
