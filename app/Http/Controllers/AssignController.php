@@ -2,27 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Leave;
-use App\User;
+use App\Assign;
 use Illuminate\Http\Request;
 
-class LeaveController extends Controller
+class AssignController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
-        $leaves = auth()->user()->leaves()->latest()->get();
-
-        return view('leave.index', compact('leaves'));
+        //
     }
 
     /**
@@ -32,7 +24,7 @@ class LeaveController extends Controller
      */
     public function create()
     {
-        return view('leave.create');
+        //
     }
 
     /**
@@ -43,21 +35,16 @@ class LeaveController extends Controller
      */
     public function store(Request $request)
     {
-        Leave::create([
-            'user_id' => auth()->id(),
-            'date' => \request('date')
-        ]);
-
-        return redirect('/leave');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Leave  $leave
+     * @param  \App\Assign  $assign
      * @return \Illuminate\Http\Response
      */
-    public function show(Leave $leave)
+    public function show(Assign $assign)
     {
         //
     }
@@ -65,10 +52,10 @@ class LeaveController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Leave  $leave
+     * @param  \App\Assign  $assign
      * @return \Illuminate\Http\Response
      */
-    public function edit(Leave $leave)
+    public function edit(Assign $assign)
     {
         //
     }
@@ -77,10 +64,10 @@ class LeaveController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Leave  $leave
+     * @param  \App\Assign  $assign
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Leave $leave)
+    public function update(Request $request, Assign $assign)
     {
         //
     }
@@ -88,27 +75,11 @@ class LeaveController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Leave  $leave
+     * @param  \App\Assign  $assign
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Leave $leave)
+    public function destroy(Assign $assign)
     {
         //
-    }
-
-    public function approve(Leave $leave)
-    {
-        $leave->update(['status'=>'approved']);
-
-        User::where('id', $leave->user_id )->update(['remaining_leaves'=>$leave->user->remaining_leaves - 1]);
-
-        return back();
-    }
-
-    public function decline(Leave $leave)
-    {
-        $leave->update(['status'=>'declined']);
-
-        return back();
     }
 }

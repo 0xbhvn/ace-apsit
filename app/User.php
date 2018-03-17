@@ -31,4 +31,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Leave::class);
     }
+
+    public function timetable()
+    {
+        return $this->hasMany(Timetable::class);
+    }
 }

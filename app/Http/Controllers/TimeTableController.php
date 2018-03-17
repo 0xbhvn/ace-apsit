@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Timetable;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TimetableController extends Controller
 {
@@ -19,14 +20,14 @@ class TimetableController extends Controller
 
     public function index()
     {
-        $mondaySlots = Timetable::where('day', 'monday')->get();
-        $tuesdaySlots = Timetable::where('day', 'tuesday')->get();
-        $wednesdaySlots = Timetable::where('day', 'wednesday')->get();
-        $thursdaySlots = Timetable::where('day', 'thursday')->get();
-        $fridaySlots = Timetable::where('day', 'friday')->get();
-        $saturdaySlots = TimeTable::where('day', 'saturday')->get();
+        $startDate = Carbon::now()->startOfWeek();
+        $endDate = Carbon::now()->endOfWeek();
+        $dateInterval = \DateInterval::createFromDateString('1 day');
+        $datePeriod = new \DatePeriod($startDate, $dateInterval, $endDate->modify('-1 day'));
 
-        return view('timetable.index', compact('mondaySlots','tuesdaySlots','wednesdaySlots','thursdaySlots','fridaySlots','saturdaySlots'));
+        $slots = Timetable::orderBy('time')->get();
+
+        return view('timetable.index', compact('slots', 'datePeriod'));
     }
 
     /**
@@ -36,7 +37,17 @@ class TimetableController extends Controller
      */
     public function create()
     {
-        return view('timetable.create');
+        $startDate = Carbon::now()->startOfWeek();
+        $endDate = Carbon::now()->endOfWeek();
+        $dateInterval = \DateInterval::createFromDateString('1 day');
+        $datePeriod = new \DatePeriod($startDate, $dateInterval, $endDate->modify('-1 day'));
+
+        $startHour = Carbon::now()->hour(9)->minute(0);
+        $endHour = Carbon::now()->hour(17)->minute(0);
+        $hourInterval = \DateInterval::createFromDateString('1 hour');
+        $hourPeriod = new \DatePeriod($startHour, $hourInterval, $endHour);
+
+        return view('timetable.create',compact('datePeriod', 'hourPeriod'));
     }
 
     /**
@@ -47,12 +58,7 @@ class TimetableController extends Controller
      */
     public function store(Request $request)
     {
-        Timetable::create([
-            'user_id' => auth()->id(),
-            'day' => \request('day'),
-            'start_time' => \request('start_time'),
-            'end_time' => \request('end_time')
-        ]);
+        Timetable::where('day', $request->day)->where('time', $request->time)->update(['is_available'=>false]);
 
         return redirect('/timetable');
     }
@@ -100,5 +106,31 @@ class TimetableController extends Controller
     public function destroy(Timetable $Timetable)
     {
         //
+    }
+
+    public function init(Timetable $Timetable)
+    {
+        //
+        $startDate = Carbon::now()->startOfWeek();
+        $endDate = Carbon::now()->endOfWeek();
+        $dateInterval = \DateInterval::createFromDateString('1 day');
+        $datePeriod = new \DatePeriod($startDate, $dateInterval, $endDate->modify('-1 day'));
+
+        $startHour = Carbon::now()->hour(9)->minute(0);
+        $endHour = Carbon::now()->hour(17)->minute(0);
+        $hourInterval = \DateInterval::createFromDateString('1 hour');
+        $hourPeriod = new \DatePeriod($startHour, $hourInterval, $endHour);
+
+        foreach($datePeriod as $datePeriodRow) {
+            foreach($hourPeriod as $hourPeriodRow) {
+                Timetable::create([
+                    'user_id' => auth()->id(),
+                    'day' => $datePeriodRow->format('l'),
+                    'time' => $hourPeriodRow->format('h:i A')
+                ]);
+            }
+        }
+
+        return redirect('/home');
     }
 }

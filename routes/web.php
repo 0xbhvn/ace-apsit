@@ -23,6 +23,7 @@ Route::get('/timetable', 'TimetableController@index');
 Route::post('/timetable', 'TimetableController@store');
 
 Route::get('/timetable/create', 'TimetableController@create');
+Route::get('/timetable/init', 'TimetableController@init');
 
 Route::get('/leave', 'LeaveController@index');
 Route::post('/leave', 'LeaveController@store');
