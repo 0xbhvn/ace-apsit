@@ -11,11 +11,49 @@
                     <div class="card-header">Remaining leaves</div>
 
                     <div class="card-body">
-                        {{ $user->remaining_leaves }}
+                        {{ auth()->user()->remaining_leaves }}
                     </div>
                 </div>
                 <br><br>
 
+                <div class="card">
+                    <div class="card-header">Approved</div>
+
+                    <div class="card-body">
+                        @foreach($leaves->where('status', 'approved') as $leave)
+                            <li class="list-group-item">
+                                {{ $leave->date }} <span class="badge badge-success">Approved</span>
+                            </li>
+                        @endforeach
+                    </div>
+                </div>
+                <br><br>
+
+                <div class="card">
+                    <div class="card-header">Declined</div>
+
+                    <div class="card-body">
+                        @foreach($leaves->where('status', 'declined') as $leave)
+                            <li class="list-group-item">
+                                {{ $leave->date }} <span class="badge badge-danger">Declined</span>
+                            </li>
+                        @endforeach
+                    </div>
+                </div>
+                <br><br>
+
+                <div class="card">
+                    <div class="card-header">Pending</div>
+
+                    <div class="card-body">
+                        @foreach($leaves->where('status', 'pending') as $leave)
+                            <li class="list-group-item">
+                                {{ $leave->date }} <span class="badge badge-warning">Pending</span>
+                            </li>
+                        @endforeach
+                    </div>
+                </div>
+                <br><br>
             </div>
         </div>
     </div>

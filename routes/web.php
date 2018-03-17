@@ -27,4 +27,7 @@ Route::get('/timetable/create', 'TimetableController@create');
 Route::get('/leave', 'LeaveController@index');
 Route::post('/leave', 'LeaveController@store');
 
+Route::get('/leave/{leave}/approve', 'LeaveController@approve');
+Route::get('/leave/{leave}/decline', 'LeaveController@decline');
+
 Route::get('/leave/create', 'LeaveController@create');

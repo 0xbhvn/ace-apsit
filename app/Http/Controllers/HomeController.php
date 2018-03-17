@@ -24,7 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $leaves = Leave::latest()->get();
+        if(auth()->user()->is_hod)
+        {
+            $leaves = Leave::latest()->get();
+
+        }
 
         return view('home', compact('leaves'));
     }

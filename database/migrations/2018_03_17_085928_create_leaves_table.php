@@ -18,7 +18,6 @@ class CreateLeavesTable extends Migration
             $table->integer('user_id');
             $table->char('date');
             $table->char('status')->default('pending');
-            $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
     }

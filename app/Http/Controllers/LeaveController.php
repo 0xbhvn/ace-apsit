@@ -20,8 +20,9 @@ class LeaveController extends Controller
 
     public function index()
     {
-        $user = User::find(auth()->id());
-        return view('leave.index', compact('user'));
+        $leaves = auth()->user()->leaves()->latest()->get();
+
+        return view('leave.index', compact('leaves'));
     }
 
     /**
@@ -93,5 +94,21 @@ class LeaveController extends Controller
     public function destroy(Leave $leave)
     {
         //
+    }
+
+    public function approve(Leave $leave)
+    {
+        $leave->update(['status'=>'approved']);
+
+        User::where('id', $leave->user_id )->update(['remaining_leaves'=>$leave->user->remaining_leaves - 1]);
+
+        return back();
+    }
+
+    public function decline(Leave $leave)
+    {
+        $leave->update(['status'=>'decline']);
+
+        return back();
     }
 }
