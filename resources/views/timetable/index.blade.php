@@ -13,76 +13,12 @@
                     <div class="card-body">
                         @foreach($mondaySlots as $slot)
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">{{ $slot->startTime }} - {{ $slot->endTime }}</li>
+                                <li class="list-group-item">{{ $slot->start_time }} - {{ $slot->end_time }}</li>
                             </ul>
                         @endforeach
                     </div>
                 </div>
                 <br><br>
-
-                <div class="card">
-                    <div class="card-header">Tuesday</div>
-
-                    <div class="card-body">
-                        @foreach($tuesdaySlots as $slot)
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">{{ $slot->startTime }} - {{ $slot->endTime }}</li>
-                            </ul>
-                        @endforeach
-                    </div>
-                </div>
-                <br><br>
-
-                <div class="card">
-                    <div class="card-header">Wednesday</div>
-
-                    <div class="card-body">
-                        @foreach($wednesdaySlots as $slot)
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">{{ $slot->startTime }} - {{ $slot->endTime }}</li>
-                            </ul>
-                        @endforeach
-                    </div>
-                </div>
-                <br><br>
-
-                <div class="card">
-                    <div class="card-header">Thursday</div>
-
-                    <div class="card-body">
-                        @foreach($thursdaySlots as $slot)
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">{{ $slot->startTime }} - {{ $slot->endTime }}</li>
-                            </ul>
-                        @endforeach
-                    </div>
-                </div>
-                <br><br>
-
-                <div class="card">
-                    <div class="card-header">Friday</div>
-
-                    <div class="card-body">
-                        @foreach($fridaySlots as $slot)
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">{{ $slot->startTime }} - {{ $slot->endTime }}</li>
-                            </ul>
-                        @endforeach
-                    </div>
-                </div>
-                <br><br>
-
-                <div class="card">
-                    <div class="card-header">Saturday</div>
-
-                    <div class="card-body">
-                        @foreach($saturdaySlots as $slot)
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">{{ $slot->startTime }} - {{ $slot->endTime }}</li>
-                            </ul>
-                        @endforeach
-                    </div>
-                </div>
             </div>
         </div>
     </div>

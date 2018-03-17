@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Pending leaves</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +14,9 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    @foreach($leaves as $leave)
+                            <li class="list-group-item">{{ $leave->user_id }} | {{ $leave->date }}</li>
+                    @endforeach
                 </div>
             </div>
         </div>

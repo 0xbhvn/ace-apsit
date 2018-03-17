@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\TimeTable;
-use App\User;
+use App\Timetable;
 use Illuminate\Http\Request;
 
-class TimeTableController extends Controller
+class TimetableController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -21,11 +19,11 @@ class TimeTableController extends Controller
 
     public function index()
     {
-        $mondaySlots = TimeTable::where('day', 'monday')->get();
-        $tuesdaySlots = TimeTable::where('day', 'tuesday')->get();
-        $wednesdaySlots = TimeTable::where('day', 'wednesday')->get();
-        $thursdaySlots = TimeTable::where('day', 'thursday')->get();
-        $fridaySlots = TimeTable::where('day', 'friday')->get();
+        $mondaySlots = Timetable::where('day', 'monday')->get();
+        $tuesdaySlots = Timetable::where('day', 'tuesday')->get();
+        $wednesdaySlots = Timetable::where('day', 'wednesday')->get();
+        $thursdaySlots = Timetable::where('day', 'thursday')->get();
+        $fridaySlots = Timetable::where('day', 'friday')->get();
         $saturdaySlots = TimeTable::where('day', 'saturday')->get();
 
         return view('timetable.index', compact('mondaySlots','tuesdaySlots','wednesdaySlots','thursdaySlots','fridaySlots','saturdaySlots'));
@@ -38,7 +36,6 @@ class TimeTableController extends Controller
      */
     public function create()
     {
-        //
         return view('timetable.create');
     }
 
@@ -50,12 +47,11 @@ class TimeTableController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        TimeTable::create([
+        Timetable::create([
             'user_id' => auth()->id(),
             'day' => \request('day'),
-            'startTime' => \request('start_time'),
-            'endTime' => \request('end_time')
+            'start_time' => \request('start_time'),
+            'end_time' => \request('end_time')
         ]);
 
         return redirect('/timetable');
@@ -64,22 +60,21 @@ class TimeTableController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\TimeTable  $timeTable
+     * @param  \App\Timetable  $timetable
      * @return \Illuminate\Http\Response
      */
-    public function show(TimeTable $timeTable)
+    public function show(Timetable $Timetable)
     {
         //
-
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\TimeTable  $timeTable
+     * @param  \App\Timetable  $Timetable
      * @return \Illuminate\Http\Response
      */
-    public function edit(TimeTable $timeTable)
+    public function edit(Timetable $Timetable)
     {
         //
     }
@@ -88,10 +83,10 @@ class TimeTableController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TimeTable  $timeTable
+     * @param  \App\Timetable  $Timetable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TimeTable $timeTable)
+    public function update(Request $request, Timetable $Timetable)
     {
         //
     }
@@ -99,10 +94,10 @@ class TimeTableController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\TimeTable  $timeTable
+     * @param  \App\Timetable  $Timetable
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TimeTable $timeTable)
+    public function destroy(Timetable $Timetable)
     {
         //
     }

@@ -40,6 +40,23 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="department" class="col-md-4 col-form-label text-md-right">{{ __('Department') }}</label>
+
+                            <div class="col-md-6">
+                                <select id="department" class="form-control" name="department" required autofocus>
+                                    <option value="cs">Computer Engineering</option>
+                                    <option value="it">Information Technology</option>
+                                </select>
+
+                                @if ($errors->has('department'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('department') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">

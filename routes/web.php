@@ -19,7 +19,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/timetable', 'TimeTableController@index');
-Route::post('/timetable', 'TimeTableController@store');
+Route::get('/timetable', 'TimetableController@index');
+Route::post('/timetable', 'TimetableController@store');
 
-Route::get('/timetable/create', 'TimeTableController@create');
+Route::get('/timetable/create', 'TimetableController@create');
+
+Route::get('/leave', 'LeaveController@index');
+Route::post('/leave', 'LeaveController@store');
+
+Route::get('/leave/create', 'LeaveController@create');
