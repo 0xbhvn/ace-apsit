@@ -15,6 +15,7 @@ class CreateTimeTablesTable extends Migration
     {
         Schema::create('time_tables', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
             $table->char('day');
             $table->char('startTime');
             $table->char('endTime');

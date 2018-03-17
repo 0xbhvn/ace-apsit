@@ -18,4 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/timetable', 'TimeTableController@index')->name('timetable');
+
+Route::get('/timetable', 'TimeTableController@index');
+Route::post('/timetable', 'TimeTableController@store');
+
+Route::get('/timetable/create', 'TimeTableController@create');
