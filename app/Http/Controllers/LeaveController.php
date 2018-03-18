@@ -51,7 +51,7 @@ class LeaveController extends Controller
             'date' => Carbon::parse($request->date)->toDateString()
         ]);
 
-        return redirect('/leave/'.$leave->id.'/assign');
+        return redirect('/assign/'.$leave->id.'/store');
     }
 
     /**
@@ -105,13 +105,13 @@ class LeaveController extends Controller
 
         User::where('id', $leave->user_id )->update(['remaining_leaves'=>$leave->user->remaining_leaves - 1]);
 
-        return redirect('/assign');
+        return redirect('/leave');
     }
 
     public function decline(Leave $leave)
     {
         $leave->update(['status'=>'declined']);
 
-        return back();
+        return redirect('/leave');
     }
 }

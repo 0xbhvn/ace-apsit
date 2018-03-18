@@ -28,13 +28,16 @@ Route::get('/timetable/init', 'TimetableController@init');
 Route::get('/leave', 'LeaveController@index');
 Route::post('/leave', 'LeaveController@store');
 
-Route::get('/leave/{leave}/assign', 'AssignController@create');
+Route::get('/leave/create', 'LeaveController@create');
 
 Route::get('/leave/{leave}/approve', 'LeaveController@approve');
 Route::get('/leave/{leave}/decline', 'LeaveController@decline');
 
-Route::get('/leave/create', 'LeaveController@create');
+Route::get('/leave/{leave}/assign', 'AssignController@index');
+Route::get('/assign/{leave}/store', 'AssignController@store');
 
-Route::get('/assign', 'AssignController@index');
+Route::get('/assign/{assign}', 'AssignController@create');
+Route::get('/assign/{assign}/{user}', 'AssignController@request');
 
-Route::get('/assign/{assign}', 'AssignController@show');
+Route::get('/assign/{assign}/approve', 'AssignController@approve');
+Route::get('/assign/{assign}/decline', 'AssignController@decline');

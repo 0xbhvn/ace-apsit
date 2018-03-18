@@ -8,7 +8,7 @@
                     <div class="card-header">Request a leave</div>
 
                     <div class="card-body">
-                        <form id="form" class="form-horizontal" method="POST" action="{{ url('/leave') }}" enctype="multipart/form-data">
+                        <form id="form" class="form-horizontal" method="POST" action="{{ url('/leave/') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('date') ? ' has-error' : '' }}">

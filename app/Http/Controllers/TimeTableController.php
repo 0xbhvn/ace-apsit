@@ -25,7 +25,7 @@ class TimetableController extends Controller
         $dateInterval = \DateInterval::createFromDateString('1 day');
         $datePeriod = new \DatePeriod($startDate, $dateInterval, $endDate->modify('-1 day'));
 
-        $slots = Timetable::orderBy('time')->get();
+        $slots = Timetable::where('user_id', auth()->id())->orderBy('time')->get();
 
         return view('timetable.index', compact('slots', 'datePeriod'));
     }

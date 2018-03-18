@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Assign;
 use App\Leave;
 use App\Timetable;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -20,10 +21,9 @@ class AssignController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Leave $leave)
     {
-        $assigns = Assign::latest()->get();
-
+        $assigns = Assign::where('leave_id', $leave->id)->get();
         return view('assign.index', compact('assigns'));
     }
 
@@ -32,21 +32,14 @@ class AssignController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Leave $leave)
+    public function create(Assign $assign)
     {
-        Carbon::parse($leave->date)->format('l');
-
-        $schedules = Timetable::where('user_id', $leave->user_id)->where('day', Carbon::parse($leave->date)->format('l'))->where('is_available', false)->get();
-
-        foreach($schedules as $schedule){
-            Assign::create([
-                'date' => $leave->date,
-                'day' => $schedule->day,
-                'time' => $schedule->time
-            ]);
+        $assignment = Assign::find($assign);
+        foreach($assignment as $ass)
+        {
+            $faculty = Timetable::where('day', $ass->day)->where('time', $ass->time)->where('is_available', 1)->get();
         }
-
-        return view('assign.create')
+        return view('assign.create', compact('assignment','faculty'));
     }
 
     /**
@@ -55,12 +48,21 @@ class AssignController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Leave $leave)
     {
-        Assign::create([
-            'user_id' => auth()->id(),
-            'date' => \request('date')
-        ]);
+        //
+        $schedules = Timetable::where('user_id', $leave->user_id)->where('day', Carbon::parse($leave->date)->format('l'))->where('is_available', false)->get();
+
+        foreach($schedules as $schedule){
+            Assign::create([
+                'date' => $leave->date,
+                'leave_id' => $leave->id,
+                'day' => $schedule->day,
+                'time' => $schedule->time
+            ]);
+        }
+
+        return redirect('/leave/'.$leave->id.'/assign/');
     }
 
     /**
@@ -71,14 +73,7 @@ class AssignController extends Controller
      */
     public function show(Assign $assign)
     {
-        $assignment = Assign::find($assign);
-
-        foreach ($assignment as $ass)
-        {
-            $free_faculty = Timetable::where('day', $ass->day)->where('time', $ass->time)->where('is_available', 1)->get();
-        }
-
-        return view('assign.show', compact('assignment','free_faculty'));
+        //
     }
 
     /**
@@ -113,5 +108,30 @@ class AssignController extends Controller
     public function destroy(Assign $assign)
     {
         //
+    }
+
+    public function request(Assign $assign, Leave $leave, User $user)
+    {
+        Assign::where('id', $assign->id )->update(['assignee'=>$user->id,'assignee_status'=>'requested']);
+        $assigned = Assign::find($assign);
+        foreach ($assigned as $ass)
+        {
+            $ass;
+        }
+        return redirect('/leave/'.$ass->leave_id.'/assign');
+    }
+
+    public function approve(Assign $assign)
+    {
+        Assign::where('id', $assign->id)->update(['assignee_status'=>'approved']);
+
+        return redirect('/leave/'.$assign->leave_id.'/assign');
+    }
+
+    public function decline(Assign $assign)
+    {
+        Assign::where('id', $assign->id)->update(['assignee_status'=>'declined']);
+
+        return redirect('/leave/'.$assign->leave_id.'/assign');
     }
 }

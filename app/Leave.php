@@ -8,4 +8,9 @@ class Leave extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function assign()
+    {
+        return $this->hasMany(Assign::class);
+    }
 }
