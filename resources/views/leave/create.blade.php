@@ -19,8 +19,8 @@
 
                                     @if ($errors->has('date'))
                                         <span class="help-block">
-                                                <strong>{{ $errors->first('date') }}</strong>
-                                            </span>
+                                            <strong>{{ $errors->first('date') }}</strong>
+                                        </span>
                                     @endif
                                 </div>
                             </div>

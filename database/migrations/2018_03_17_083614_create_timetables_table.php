@@ -18,6 +18,7 @@ class CreateTimetablesTable extends Migration
             $table->integer('user_id');
             $table->char('day');
             $table->char('time');
+            $table->char('department')->nullable();
             $table->boolean('is_available')->default(true);
             $table->timestamps();
         });

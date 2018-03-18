@@ -17,7 +17,8 @@ class CreateLeavesTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->char('date');
-            $table->char('status')->default('pending');
+            $table->char('status')->default('Proposed');
+            $table->text('reason')->nullable();
             $table->timestamps();
         });
     }
