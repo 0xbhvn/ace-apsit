@@ -123,15 +123,25 @@ class AssignController extends Controller
 
     public function approve(Assign $assign)
     {
-        Assign::where('id', $assign->id)->update(['assignee_status'=>'approved']);
-
-        return redirect('/leave/'.$assign->leave_id.'/assign');
+        Assign::where('id', $assign->id)->update(['assignee_status'=>'approved','hod_status'=>'requested']);
+        return redirect('/home');
     }
 
     public function decline(Assign $assign)
     {
         Assign::where('id', $assign->id)->update(['assignee_status'=>'declined']);
+        return redirect('/home');
+    }
 
-        return redirect('/leave/'.$assign->leave_id.'/assign');
+    public function approveHod(Assign $assign)
+    {
+        Assign::where('id', $assign->id)->update(['hod_status'=>'approved', 'is_assigned'=>true]);
+        return redirect('/home');
+    }
+
+    public function declineHod(Assign $assign)
+    {
+        Assign::where('id', $assign->id)->update(['hod_status'=>'declined']);
+        return redirect('/home');
     }
 }

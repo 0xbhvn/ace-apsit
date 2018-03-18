@@ -33,11 +33,14 @@ Route::get('/leave/create', 'LeaveController@create');
 Route::get('/leave/{leave}/approve', 'LeaveController@approve');
 Route::get('/leave/{leave}/decline', 'LeaveController@decline');
 
+Route::get('/assign/{assign}/approve', 'AssignController@approve');
+Route::get('/assign/{assign}/decline', 'AssignController@decline');
+
+Route::get('/assign/{assign}/approvehod', 'AssignController@approveHod');
+Route::get('/assign/{assign}/declinehod', 'AssignController@declineHod');
+
 Route::get('/leave/{leave}/assign', 'AssignController@index');
 Route::get('/assign/{leave}/store', 'AssignController@store');
 
 Route::get('/assign/{assign}', 'AssignController@create');
 Route::get('/assign/{assign}/{user}', 'AssignController@request');
-
-Route::get('/assign/{assign}/approve', 'AssignController@approve');
-Route::get('/assign/{assign}/decline', 'AssignController@decline');

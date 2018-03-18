@@ -29,11 +29,11 @@ class HomeController extends Controller
 
         if(auth()->user()->is_hod)
         {
-            $leaves = Leave::latest()->get();
+            $requestsHod = Assign::where('assignee_status', 'approved')->where('hod_status', 'requested')->get();
 
-            return view('home', compact('leaves', 'requests'));
+            return view('home', compact('leaves', 'requests','requestsHod'));
         }
 
-        return view('home', compact('leaves','requests'));
+        return view('home', compact('leaves','requests','requestsHod'));
     }
 }
